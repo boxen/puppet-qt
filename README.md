@@ -1,4 +1,12 @@
-# Puppet qt for Boxen
+# QT Puppet Module for Boxen
 
-FIXME: update me bro
+Requires the following boxen modules:
 
+* `boxen`
+* `xquartz`
+
+## Usage
+
+```puppet
+include qt
+```
