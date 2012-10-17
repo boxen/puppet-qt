@@ -1,0 +1,8 @@
+GITHUBTARBALL
+  remote: boxen/puppet-xquartz
+  specs:
+    xquartz (0.0.1)
+
+DEPENDENCIES
+  xquartz (= 0.0.1)
+
