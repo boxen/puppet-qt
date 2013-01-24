@@ -6,13 +6,14 @@
 
 class qt {
   include homebrew
-  require xquartz
+  include xquartz
 
   homebrew::formula { 'qt':
     before => Package['boxen/brews/qt'],
   }
 
   package { 'boxen/brews/qt':
-    ensure => '4.8.2-boxen1',
+    ensure  => '4.8.2-boxen1',
+    require => Class['xquartz'],
   }
 }
