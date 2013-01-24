@@ -2,8 +2,8 @@ require 'formula'
 
 class Qt < Formula
   homepage 'http://qt.nokia.com/'
-  url 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.tar.gz'
-  md5 '3c1146ddf56247e16782f96910a8423b'
+  url 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.tar.gz'
+  md5 'f5880f11c139d7d8d01ecb8d874535f7d9553198'
 
   head 'git://gitorious.org/qt/qt.git', :branch => 'master'
 
@@ -15,42 +15,19 @@ class Qt < Formula
   option 'developer', 'Compile and link Qt with developer options'
 
   depends_on "d-bus" if build.include? 'with-qtdbus'
-  depends_on 'sqlite' if MacOS.leopard?
 
-  fails_with :clang do
-    build 421
-  end
-
-  version '4.8.2-boxen1'
+  version '4.8.4-boxen1'
 
   def patches
-    # fixes conflict on osx 10.5. See qt bug:
-    # https://bugreports.qt-project.org/browse/QTBUG-23258
-    if MacOS.leopard?
-      "http://bugreports.qt-project.org/secure/attachment/26712/Patch-Qt-4.8-for-10.5"
-    # add support for Mountain Lion
-    # should be unneeded for 4.8.3
-    elsif MacOS.mountain_lion?
-      [ "https://qt.gitorious.org/qt/qt/commit/422f1b?format=patch",
-        "https://qt.gitorious.org/qt/qt/commit/665355?format=patch",
-        "https://raw.github.com/gist/3187034/893252db0ae3bb9bb5fa3ff7c530c7978399b101/0001-Fix-WebKit-on-OS-X-Mountain-Lion.patch" ]
-    end
-
+    #none
   end
 
   def install
-    # Apply binary git patch; normal patch ignores this.
-    # TODO: Autodetect binary patches and apply them correctly.
-    system "git apply --exclude=*/QtWebKit.pro 002-homebrew.diff" if MacOS.mountain_lion?
-
     ENV.append "CXXFLAGS", "-fvisibility=hidden"
     args = ["-prefix", prefix,
-            "-system-zlib",
+            "-system-libpng", "-system-zlib",
             "-confirm-license", "-opensource",
             "-cocoa", "-fast" ]
-
-    # See: https://github.com/mxcl/homebrew/issues/issue/744
-    args << "-system-sqlite" if MacOS.leopard?
 
     args << "-plugin-sql-mysql" if (HOMEBREW_CELLAR+"mysql").directory?
 
