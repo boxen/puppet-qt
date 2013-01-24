@@ -3,7 +3,7 @@ require 'formula'
 class Qt < Formula
   homepage 'http://qt.nokia.com/'
   url 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.tar.gz'
-  md5 'f5880f11c139d7d8d01ecb8d874535f7d9553198'
+  md5 '89c5ecba180cae74c66260ac732dc5cb'
 
   head 'git://gitorious.org/qt/qt.git', :branch => 'master'
 
