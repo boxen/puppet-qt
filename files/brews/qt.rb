@@ -1,25 +1,34 @@
 require 'formula'
 
 class Qt < Formula
-  homepage 'http://qt.nokia.com/'
+  homepage 'http://qt-project.org/'
   url 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.tar.gz'
-  md5 '89c5ecba180cae74c66260ac732dc5cb'
+  sha1 'f5880f11c139d7d8d01ecb8d874535f7d9553198'
 
-  head 'git://gitorious.org/qt/qt.git', :branch => 'master'
+  version "4.8.4-boxen1"
+
+  env :std # Otherwise fails on SSE intrinsics
 
   option :universal
   option 'with-qtdbus', 'Enable QtDBus module'
   option 'with-qt3support', 'Enable deprecated Qt3Support module'
-  option 'with-demos-examples', 'Eanble Qt demos and examples'
+  option 'with-demos-examples', 'Enable Qt demos and examples'
   option 'with-debug-and-release', 'Compile Qt in debug and release mode'
+  option 'with-mysql', 'Enable MySQL plugin'
   option 'developer', 'Compile and link Qt with developer options'
 
-  depends_on "d-bus" if build.include? 'with-qtdbus'
+  depends_on :libpng
 
-  version '4.8.4-boxen1'
+  depends_on "d-bus" if build.include? 'with-qtdbus'
+  depends_on "mysql" if build.include? 'with-mysql'
+  depends_on 'sqlite' if MacOS.version == :leopard
 
   def patches
-    #none
+    # Fixes compilation failure on Leopard.
+    # https://bugreports.qt-project.org/browse/QTBUG-23258
+    if MacOS.version == :leopard
+      "http://bugreports.qt-project.org/secure/attachment/26712/Patch-Qt-4.8-for-10.5"
+    end
   end
 
   def install
@@ -29,7 +38,14 @@ class Qt < Formula
             "-confirm-license", "-opensource",
             "-cocoa", "-fast" ]
 
-    args << "-plugin-sql-mysql" if (HOMEBREW_CELLAR+"mysql").directory?
+    args << "-L#{MacOS::X11.prefix}/lib" << "-I#{MacOS::X11.prefix}/include" if MacOS::X11.installed?
+
+    args << "-platform" << "unsupported/macx-clang" if ENV.compiler == :clang
+
+    # See: https://github.com/mxcl/homebrew/issues/issue/744
+    args << "-system-sqlite" if MacOS.version == :leopard
+
+    args << "-plugin-sql-mysql" if build.include? 'with-mysql'
 
     if build.include? 'with-qtdbus'
       args << "-I#{Formula.factory('d-bus').lib}/dbus-1.0/include"
@@ -64,9 +80,6 @@ class Qt < Formula
     end
 
     args << '-developer-build' if build.include? 'developer'
-
-    # Needed for Qt 4.8.1 due to attempting to link moc with gcc.
-    ENV['LD'] = ENV.cxx
 
     system "./configure", *args
     system "make"
