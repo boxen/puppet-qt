@@ -33,6 +33,15 @@ class Qt < Formula
 
   def install
     ENV.append "CXXFLAGS", "-fvisibility=hidden"
+    
+    # clang complains about extra qualifier since Xcode 4.6 (clang build 425)
+    # https://bugreports.qt-project.org/browse/QTBUG-29373
+    if MacOS.clang_build_version >= 425
+      inreplace "src/gui/kernel/qt_cocoa_helpers_mac_p.h",
+                "::TabletProximityRec",
+                "TabletProximityRec"
+    end
+    
     args = ["-prefix", prefix,
             "-system-libpng", "-system-zlib",
             "-confirm-license", "-opensource",
