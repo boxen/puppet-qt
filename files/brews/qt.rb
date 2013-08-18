@@ -2,10 +2,10 @@ require 'formula'
 
 class Qt < Formula
   homepage 'http://qt-project.org/'
-  url 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.tar.gz'
-  sha1 'f5880f11c139d7d8d01ecb8d874535f7d9553198'
+  url 'http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-everywhere-opensource-src-4.8.5.tar.gz'
+  sha1 '745f9ebf091696c0d5403ce691dc28c039d77b9e'
 
-  version "4.8.4-boxen1"
+  version "4.8.5-boxen1"
 
   env :std # Otherwise fails on SSE intrinsics
 
