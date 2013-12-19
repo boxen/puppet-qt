@@ -14,7 +14,7 @@ class Qt < Formula
     sha1 '51548326463068912fb4d9de04b0f6b2e267d064'
   end
 
-  version "4.8.5-boxen1"
+  version "4.8.5-boxen2"
 
   env :std # Otherwise fails on SSE intrinsics
 
