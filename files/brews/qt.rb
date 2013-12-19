@@ -2,10 +2,19 @@ require 'formula'
 
 class Qt < Formula
   homepage 'http://qt-project.org/'
-  url 'http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-everywhere-opensource-src-4.8.5.tar.gz'
-  sha1 '745f9ebf091696c0d5403ce691dc28c039d77b9e'
+  if MacOS.version < :mavericks
+    url 'http://download.qt-project.org/official_releases/qt/4.8/4.8.5/qt-everywhere-opensource-src-4.8.5.tar.gz'
+    sha1 '745f9ebf091696c0d5403ce691dc28c039d77b9e'
+  else
+    # This is a snapshot of the current qt-4.8 branch. It's been used by a
+    # bunch of people to get Qt working on Mavericks and 4.8.5 needs too many
+    # patches to compile any time soon (January-ish):
+    # http://permalink.gmane.org/gmane.comp.lib.qt.devel/13812
+    url 'https://github.com/qtproject/qt/archive/f44310c25b372f494586dbb5b305f7e81ca63000.tar.gz'
+    sha1 '51548326463068912fb4d9de04b0f6b2e267d064'
+  end
 
-  version "4.8.5-boxen1"
+  version "4.8.5-boxen2"
 
   env :std # Otherwise fails on SSE intrinsics
 
@@ -32,7 +41,6 @@ class Qt < Formula
   end
 
   def install
-    ENV.append "CXXFLAGS", "-fvisibility=hidden"
     args = ["-prefix", prefix,
             "-system-libpng", "-system-zlib",
             "-confirm-license", "-opensource",
