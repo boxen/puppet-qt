@@ -16,7 +16,6 @@ class Qt < Formula
 
   version "4.8.5-boxen2"
 
-
   option :universal
   option 'with-qt3support', 'Build with deprecated Qt3Support module support'
   option 'with-docs', 'Build documentation'
@@ -24,6 +23,7 @@ class Qt < Formula
 
   depends_on "d-bus" => :optional
   depends_on "mysql" => :optional
+  depends_on "libpng"
 
   odie 'qt: --with-qtdbus has been renamed to --with-d-bus' if build.include? 'with-qtdbus'
   odie 'qt: --with-demos-examples is no longer supported' if build.include? 'with-demos-examples'
