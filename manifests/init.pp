@@ -13,7 +13,7 @@ class qt {
   }
 
   package { 'boxen/brews/qt':
-    ensure  => '4.8.6-boxen1',
+    ensure  => '4.8.6-boxen2',
     require => Class['xquartz'],
   }
 }

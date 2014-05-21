@@ -5,7 +5,7 @@ class Qt < Formula
   url "http://download.qt-project.org/official_releases/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz"
   sha1 "ddf9c20ca8309a116e0466c42984238009525da6"
 
-  version "4.8.6-boxen1"
+  version "4.8.6-boxen2"
 
   bottle do
     sha1 "114242a849d7ade7d55d46097b1f7790b871df8f" => :mavericks
@@ -34,10 +34,6 @@ class Qt < Formula
             "-confirm-license", "-opensource",
             "-nomake", "demos", "-nomake", "examples",
             "-cocoa", "-fast", "-release"]
-
-    # we have to disable these to avoid triggering optimization code
-    # that will fail in superenv (in --env=std, Qt seems aware of this)
-    args << "-no-3dnow" << "-no-ssse3" if superenv?
 
     args << "-L#{MacOS::X11.lib}" << "-I#{MacOS::X11.include}" if MacOS::X11.installed?
 
