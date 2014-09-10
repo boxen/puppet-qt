@@ -13,7 +13,7 @@ class Qt < Formula
     sha1 "212fce47b1f2f2d3bf4397db7d5967fb59223cec" => :lion
   end
 
-  patch :DATA
+  patch :DATA if MacOS.version == :yosemite
 
   option :universal
   option 'with-qt3support', 'Build with deprecated Qt3Support module support'
