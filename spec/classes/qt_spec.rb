@@ -15,6 +15,6 @@ describe 'qt' do
     should include_class('xquartz')
 
     should contain_homebrew__formula('qt')
-    should contain_package('boxen/brews/qt').with_ensure('4.8.6-boxen2')
+    should contain_package('boxen/brews/qt').with_ensure('4.8.6-boxen3')
   end
 end
